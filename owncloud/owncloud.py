@@ -903,13 +903,15 @@ class Client(object):
             tree = ET.fromstring(res.content)
             self._check_ocs_status(tree)
             data_el = tree.find('data')
+            data_el_name = data_el.find('name')
             return ShareInfo(
                                 {
                                     'id': data_el.find('id').text,
                                     'path': path,
                                     'url': data_el.find('url').text,
                                     'token': data_el.find('token').text,
-                                    'name': data_el.find('name').text
+                                    'name': data_el.find('name').text if data_el_name
+                                    else ''
                                 }
             )
         raise HTTPResponseError(res)
